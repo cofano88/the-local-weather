@@ -1,0 +1,52 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+.logo {
+  font-size: 64px;
+  font-weight: bold;
+  color: #f3e6e3;
+}
+.navi {
+  margin: 0 auto;
+  display: flex;
+  list-style: none;
+  justify-content: center;
+}
+.navi li {
+  width: 150px;
+}
+button,
+button:active,
+button:focus {
+  outline: none;
+}
+
+button {
+  color: #776d8a;
+  background-color: #f3e6e3;
+  padding: 3px 5px;
+  font-size: 24px;
+  width: 100%;
+  border-radius: 5px;
+  width: 100%;
+  border: 2px solid #422e64;
+}
+
+button:active {
+  color: #f3e6e3;
+  background-color: #776d8a;
+}
+@media only screen and (max-width: 570px) {
+  .logo {
+    font-size: 46px;
+  }
+}
+@media only screen and (max-width: 570px) {
+  .logo {
+    font-size: 38px;
+  }
+}
