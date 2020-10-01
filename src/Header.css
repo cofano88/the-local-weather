@@ -45,7 +45,7 @@ button:active {
     font-size: 46px;
   }
 }
-@media only screen and (max-width: 570px) {
+@media only screen and (max-width: 430px) {
   .logo {
     font-size: 38px;
   }
