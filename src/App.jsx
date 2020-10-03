@@ -17,15 +17,17 @@ export default function App() {
   }
 
   useEffect(() => {
-    async function fetchMyAPI() {
-      const apiKey = `${process.env.REACT_APP_LOCATION_API_KEY}`;
-      const respLocation = await fetch(`http://ip-api.com/json/`);
+    async function getCurrentWeather() {
+      const coordinatesKey = `${process.env.REACT_APP_COORDINATES_API_KEY}`;
+      const respLocation = await fetch(
+        `https://api.ipgeolocation.io/ipgeo?apiKey=${coordinatesKey}`
+      );
       const locationObj = await respLocation.json();
-      const lat = locationObj.lat;
-      const lon = locationObj.lon;
-
+      const lat = locationObj.latitude;
+      const lon = locationObj.longitude;
+      const apiKey = `${process.env.REACT_APP_LOCATION_API_KEY}`;
       const respWeather = await fetch(
-        `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`
       );
       const weatherObj = await respWeather.json();
       var currentdate = new Date();
@@ -44,12 +46,12 @@ export default function App() {
       setCurrentWeather(current);
     }
 
-    fetchMyAPI();
+    getCurrentWeather();
   }, []);
 
   useEffect(() => {
     let reqRead = new XMLHttpRequest();
-    const secretKey = `${process.env.REACT_APP_WEATHER_API_KEY}`;
+    const secretKey = `${process.env.REACT_APP_BIN_API_KEY}`;
     const binNum = `${process.env.REACT_APP_BINNUM}`;
     reqRead.onreadystatechange = () => {
       if (reqRead.readyState === XMLHttpRequest.DONE) {
@@ -77,7 +79,7 @@ export default function App() {
   useEffect(() => {
     setTimeout(() => {
       let reqUpd = new XMLHttpRequest();
-      const secretKey = `${process.env.REACT_APP_WEATHER_API_KEY}`;
+      const secretKey = `${process.env.REACT_APP_BIN_API_KEY}`;
       const binNum = `${process.env.REACT_APP_BINNUM}`;
       reqUpd.onreadystatechange = () => {
         if (reqUpd.readyState === XMLHttpRequest.DONE) {
