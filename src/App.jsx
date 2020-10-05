@@ -40,7 +40,7 @@ export default function App() {
         "  " +
         currentdate.getHours() +
         ":" +
-        currentdate.getMinutes();
+        ((currentdate.getMinutes() < 10 ? "0" : "") + currentdate.getMinutes());
       const current = { ...weatherObj, date: date };
 
       setCurrentWeather(current);
@@ -50,34 +50,38 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    let reqRead = new XMLHttpRequest();
-    const secretKey = `${process.env.REACT_APP_BIN_API_KEY}`;
-    const binNum = `${process.env.REACT_APP_BINNUM}`;
-    reqRead.onreadystatechange = () => {
-      if (reqRead.readyState === XMLHttpRequest.DONE) {
-        let resp = JSON.parse(reqRead.responseText);
-        if (
-          historyWeather &&
-          historyWeather[historyWeather.length - 1].date ===
-            resp[resp.length - 1].date &&
-          historyWeather[historyWeather.length - 1].id ===
-            resp[resp.length - 1].id
-        ) {
-          return;
-        } else {
-          setHistoryWeather(resp);
+    function getHistoryWeather() {
+      let reqRead = new XMLHttpRequest();
+      const secretKey = `${process.env.REACT_APP_BIN_API_KEY}`;
+      const binNum = `${process.env.REACT_APP_BINNUM}`;
+      reqRead.onreadystatechange = () => {
+        if (reqRead.readyState === XMLHttpRequest.DONE) {
+          let resp = JSON.parse(reqRead.responseText);
+          if (
+            historyWeather &&
+            historyWeather[historyWeather.length - 1].date ===
+              resp[resp.length - 1].date &&
+            historyWeather[historyWeather.length - 1].id ===
+              resp[resp.length - 1].id
+          ) {
+            return;
+          } else {
+            setHistoryWeather(resp);
+          }
         }
-      }
-    };
+      };
 
-    reqRead.open("GET", `https://api.jsonbin.io/b/${binNum}/latest`, true);
+      reqRead.open("GET", `https://api.jsonbin.io/b/${binNum}/latest`, true);
 
-    reqRead.setRequestHeader("secret-key", `${secretKey}`);
-    reqRead.send();
+      reqRead.setRequestHeader("secret-key", `${secretKey}`);
+      reqRead.send();
+    }
+
+    getHistoryWeather();
   }, [historyWeather]);
 
   useEffect(() => {
-    setTimeout(() => {
+    function updateHistory() {
       let reqUpd = new XMLHttpRequest();
       const secretKey = `${process.env.REACT_APP_BIN_API_KEY}`;
       const binNum = `${process.env.REACT_APP_BINNUM}`;
@@ -104,7 +108,9 @@ export default function App() {
         let json = JSON.stringify(history);
         reqUpd.send(json);
       }
-    }, []);
+    }
+
+    updateHistory();
   }, [historyWeather, currentWeather]);
 
   return (
