@@ -59,10 +59,8 @@ export default function App() {
           let resp = JSON.parse(reqRead.responseText);
           if (
             historyWeather &&
-            historyWeather[historyWeather.length - 1].date ===
-              resp[resp.length - 1].date &&
-            historyWeather[historyWeather.length - 1].id ===
-              resp[resp.length - 1].id
+            historyWeather[0].date === resp[0].date &&
+            historyWeather[0].id === resp[0].id
           ) {
             return;
           } else {
@@ -99,12 +97,12 @@ export default function App() {
       if (
         !historyWeather ||
         !currentWeather ||
-        historyWeather[historyWeather.length - 1].date === currentWeather.date
+        historyWeather[0].date === currentWeather.date
       ) {
         return;
       } else {
         let history = historyWeather;
-        history.push(currentWeather);
+        history.unshift(currentWeather);
         let json = JSON.stringify(history);
         reqUpd.send(json);
       }
